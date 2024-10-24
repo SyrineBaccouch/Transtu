@@ -1,68 +1,149 @@
-<div class="container mt-4">
-    <h1 class="mb-4">Bus Information</h1>
-
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="ligne">Ligne:</label>
-                <input type="text" id="ligne" [(ngModel)]="ligne" class="form-control" placeholder="Enter bus line (Ligne)">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transtu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#home">Transtu</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contactez Nous</a></li>
+                </ul>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="station">Station:</label>
-                <input type="text" id="station" [(ngModel)]="station" class="form-control" placeholder="Enter station (Optional)">
+    </nav>
+
+    <div id="home" class="section">
+        <div class="container mt-4">
+            <h1 class="mb-4">Bus Information</h1>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ligne">Ligne:</label>
+                        <input type="text" id="ligne" [(ngModel)]="ligne" class="form-control" placeholder="Enter bus line (Ligne)">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="station">Station:</label>
+                        <input type="text" id="station" [(ngModel)]="station" class="form-control" placeholder="Enter station (Optional)">
+                    </div>
+                </div>
+            </div>
+            <div class="button-section mb-4">
+                <button class="btn btn-secondary" (click)="getBusByLigne()">Bus par Ligne</button>
+                <button class="btn btn-secondary" (click)="getHorairesVersBanlieue()">Horaires Vers Banlieue</button>
+                <button class="btn btn-secondary" (click)="getHorairesVersStation()">Horaires Vers Station</button>
+                <button class="btn btn-secondary" (click)="getHorairesStationVersBanlieue()">Horaires de Station au Banlieue</button>
+                <button class="btn btn-secondary" (click)="getHorairesStationVersStation()">Horaires de Station à Station</button>
+            </div>
+
+            <div *ngIf="bus" class="mb-4">
+                <h2>Bus Information</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Ligne:</strong> {{ bus.ligne }}</li>
+                    <li class="list-group-item"><strong>Départ:</strong> {{ bus.depart }}</li>
+                    <li class="list-group-item"><strong>Destination:</strong> {{ bus.destination }}</li>
+                    <li class="list-group-item"><strong>Premier Départ vers Station:</strong> {{ bus.pdvs }}</li>
+                    <li class="list-group-item"><strong>Premier Départ vers Banlieue:</strong> {{ bus.pdvb }}</li>
+                    <li class="list-group-item"><strong>Dernier Départ vers Station:</strong> {{ bus.ddvs }}</li>
+                    <li class="list-group-item"><strong>Dernier Départ vers Banlieue:</strong> {{ bus.ddvb }}</li>
+                </ul>
+            </div>
+
+
+            <div *ngIf="horairesVB" class="mb-4">
+                <h2>Horaires Vers Banlieue</h2>
+                <div class="schedule-container">
+                    <div *ngFor="let horaire of horairesVB" class="schedule-item">{{ horaire }}</div>
+                </div>
+            </div>
+            <div *ngIf="horairesVS" class="mb-4">
+                <h2>Horaires Vers Station</h2>
+                <div class="schedule-container">
+                    <div *ngFor="let horaire of horairesVS" class="schedule-item">{{ horaire }}</div>
+                </div>
+            </div>
+            <div *ngIf="horairesSVB" class="mb-4">
+                <h2>Horaires de Station à Banlieue</h2>
+                <div class="schedule-container">
+                    <div *ngFor="let horaire of horairesSVB" class="schedule-item">{{ horaire }}</div>
+                </div>
+            </div>
+            <div *ngIf="horairesSVS" class="mb-4">
+                <h2>Horaires de Station à Station</h2>
+                <div class="schedule-container">
+                    <div *ngFor="let horaire of horairesSVS" class="schedule-item">{{ horaire }}</div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div id="about" class="section">
+        <div class="container mt-4">
+            <h2 class="text-center" style="color: #4caf50; font-size: 2.5rem; font-weight: bold; margin-bottom: 40px;">À propos</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #33691e; text-align: justify; padding-right: 20px;">
+                        Notre mission est de garantir un service de transport collectif fiable, sécurisé et accessible pour les voyageurs de la région du Grand Tunis. En s'appuyant sur un réseau étendu de bus, nous visons à faciliter la mobilité quotidienne de milliers de personnes, qu'il s'agisse de leurs trajets domicile-travail, de leurs activités sociales ou de leurs déplacements pour les études.
+                    </p>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="../../assets/Bus-Transtu.jpg" alt="Bus Network" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="button-section mb-4">
-        <button class="btn btn-primary" (click)="getBusByLigne()">Bus par Ligne</button>
-        <button class="btn btn-secondary" (click)="getHorairesVersBanlieue()">Horaires Vers Banlieue</button>
-        <button class="btn btn-secondary" (click)="getHorairesVersStation()">Horaires Vers Station</button>
-        <button class="btn btn-secondary" (click)="getHorairesStationVersBanlieue()">Horaires de Station au Banlieue</button>
-        <button class="btn btn-secondary" (click)="getHorairesStationVersStation()">Horaires de Station à Station</button>
-    </div>
-
-    <div *ngIf="bus" class="mb-4">
-        <h2>Bus Information</h2>
-        <ul class="list-group">
-            <li class="list-group-item"><strong>Ligne:</strong> {{ bus.ligne }}</li>
-            <li class="list-group-item"><strong>Départ:</strong> {{ bus.depart }}</li>
-            <li class="list-group-item"><strong>Destination:</strong> {{ bus.destination }}</li>
-            <li class="list-group-item"><strong>Premier Départ vers Station:</strong> {{ bus.pdvs }}</li>
-            <li class="list-group-item"><strong>Premier Départ vers Banlieue:</strong> {{ bus.pdvb }}</li>
-            <li class="list-group-item"><strong>Dernier Départ vers Station:</strong> {{ bus.ddvs }}</li>
-            <li class="list-group-item"><strong>Dernier Départ vers Banlieue:</strong> {{ bus.ddvb }}</li>
-        </ul>
-    </div>
-
-    <div *ngIf="horairesVB" class="mb-4">
-        <h2>Horaires Vers Banlieue</h2>
-        <div class="list-group">
-            <p *ngFor="let horaire of horairesVB" class="list-group-item">{{ horaire }}</p>
+    <div id="contact">
+        <div class="container">
+            <h2 style="color: #4caf50;">Contactez Nous</h2>
+            <div class="contact-info" style="color: #4caf50;">
+                <div>
+                    <h3>Info Général</h3>
+                    <span>Email: ecoute.clienteletranstu.tn</span>
+                    <p>Téléphone : +216 71 904 894 / 71 904 889 / 71 904 932</p>
+                </div>
+                <div>
+                    <h3>Adresse</h3>
+                    <p>33 Avenue du Japon</p>
+                    <p>Montplaisir, Tunis</p>
+                    <p>Tunisie</p>
+                </div>
+            </div>
+            <div class="mt-4" style="color: #4caf50; text-align: center;">
+                <h3>Suivez-nous</h3>
+                <div class="social-icons mt-3">
+                    <a href="https://www.facebook.com/Transtu.tn" target="_blank" style="text-decoration: none; color: #3b5998; margin-right: 15px;">
+                        <i class="fab fa-facebook-f" style="font-size: 2rem;"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" style="text-decoration: none; color: #0077b5; margin-left: 15px;">
+                        <i class="fab fa-linkedin-in" style="font-size: 2rem;"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+    
 
-    <div *ngIf="horairesVS" class="mb-4">
-        <h2>Horaires Vers Station</h2>
-        <div class="list-group">
-            <p *ngFor="let horaire of horairesVS" class="list-group-item">{{ horaire }}</p>
-        </div>
-    </div>
 
-    <div *ngIf="horairesSVB" class="mb-4">
-        <h2>Horaires de Station à Banlieue</h2>
-        <div class="list-group">
-            <p *ngFor="let horaire of horairesSVB" class="list-group-item">{{ horaire }}</p>
-        </div>
-    </div>
-
-    <div *ngIf="horairesSVS" class="mb-4">
-        <h2>Horaires de Station à Station</h2>
-        <div class="list-group">
-            <p *ngFor="let horaire of horairesSVS" class="list-group-item">{{ horaire }}</p>
-        </div>
-    </div>
-</div>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+</body>
+</html>

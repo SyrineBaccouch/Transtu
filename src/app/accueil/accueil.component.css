@@ -1,11 +1,177 @@
-.input-section {
+:root {
+    --primary-color: #4caf50;
+    --secondary-color: #fdd835;
+    --background-color: #f1f8e9;
+    --text-color: #33691e;
+}
+
+body {
+    background-image: url(../../assets/pexels-alexander-isreb-880417-1784142.jpg); 
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    padding-top: 80px; 
+}
+
+.navbar {
+    background-color: var(--primary-color);
+    height: 80px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand, .nav-link {
+    color: white !important;
+    font-size: 1.2rem;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color) !important;
+}
+#home {
+    height: auto;
+    padding-top: 80px; 
+}
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 30px;
+   
+}
+
+h1, h2 {
+    color: var(--primary-color);
     margin-bottom: 20px;
+}
+
+.form-control {
+    border-color: var(--secondary-color);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background-color: #fbc02d;
+    border-color: #fbc02d;
 }
 
 .button-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#map-container {
+    height: 500px; 
+    width: 100%;
+    margin-top: 20px; 
+    position: relative; 
+}
+
+#map {
+    height: 100%; 
+    width: 100%; 
+    position: relative;
+    z-index: 1; 
+}
+
+
+
+.list-group-item {
+    background-color: #f9fbe7;
+    border-color: #dce775;
+}
+
+.schedule-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.schedule-item {
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+    min-height: 100vh;
+    padding-top: 80px; 
+}
+
+#contact {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 50px 0;
+    margin-top: 50px;
+}
+
+#contact h2 {
+    color: white;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.contact-info div {
+    flex-basis: 30%;
     margin-bottom: 20px;
 }
 
-h2 {
-    margin-top: 20px;
+@media (max-width: 768px) {
+    .button-section {
+        flex-direction: column;
+    }
+
+    .button-section .btn {
+        width: 100%;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .navbar {
+        height: auto;
+    }
+
+    .contact-info div {
+        flex-basis: 100%;
+    }
 }

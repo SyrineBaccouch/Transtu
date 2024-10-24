@@ -62,7 +62,7 @@ export class AccueilComponent implements OnInit {
     if (this.ligne && this.station) {
       this.busService.listeHorairesStationVersBanlieue(this.ligne, this.station).subscribe(
         (data: any) => this.horairesSVB = data,
-        error => this.handleError(error, 'horaires from station to banlieue')
+        error => this.handleError(error, 'horaires de station au banlieue')
       );
     } else {
       alert('Entrez une ligne et une station, les deux');
@@ -70,11 +70,11 @@ export class AccueilComponent implements OnInit {
   }
 
   getHorairesStationVersStation(): void {
-    this.clearOtherData(); // Clear other data
+    this.clearOtherData(); 
     if (this.ligne && this.station) {
       this.busService.listeHorairesStationVersStation(this.ligne, this.station).subscribe(
         (data: any) => this.horairesSVS = data,
-        error => this.handleError(error, 'horaires from station to station')
+        error => this.handleError(error, 'horaires de station à une station')
       );
     } else {
       alert('Entrez une ligne et une station, les deux');
@@ -94,7 +94,7 @@ export class AccueilComponent implements OnInit {
     if (error.status === 404) {
       alert(`${context.charAt(0).toUpperCase() + context.slice(1)} not found.`);
     } else if (error.status === 500) {
-      alert('Server error. Please try again later.');
+      alert('Server error');
     } else {
       alert(`Failed to fetch ${context}. Please check your server connection.`);
     }
