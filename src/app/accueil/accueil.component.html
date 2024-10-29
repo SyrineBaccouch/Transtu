@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transtu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
 <body>
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#home">Transtu</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -31,13 +44,15 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="ligne">Ligne:</label>
-                        <input type="text" id="ligne" [(ngModel)]="ligne" class="form-control" placeholder="Enter bus line (Ligne)">
+                        <input type="text" id="ligne" [(ngModel)]="ligne" class="form-control"
+                            placeholder="Enter bus line (Ligne)">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="station">Station:</label>
-                        <input type="text" id="station" [(ngModel)]="station" class="form-control" placeholder="Enter station (Optional)">
+                        <input type="text" id="station" [(ngModel)]="station" class="form-control"
+                            placeholder="Enter station (Optional)">
                     </div>
                 </div>
             </div>
@@ -46,7 +61,7 @@
                 <button class="btn btn-secondary" (click)="getHorairesVersBanlieue()">Horaires Vers Banlieue</button>
                 <button class="btn btn-secondary" (click)="getHorairesVersStation()">Horaires Vers Station</button>
                 <button class="btn btn-secondary" (click)="getHorairesStationVersBanlieue()">Horaires de Station au Banlieue</button>
-                <button class="btn btn-secondary" (click)="getHorairesStationVersStation()">Horaires de Station à Station</button>
+                <button class="btn btn-secondary" (click)="getHorairesStationVersStation()">Horaires de Banlieue au Station</button>
             </div>
 
             <div *ngIf="bus" class="mb-4">
@@ -61,7 +76,6 @@
                     <li class="list-group-item"><strong>Dernier Départ vers Banlieue:</strong> {{ bus.ddvb }}</li>
                 </ul>
             </div>
-
 
             <div *ngIf="horairesVB" class="mb-4">
                 <h2>Horaires Vers Banlieue</h2>
@@ -87,10 +101,48 @@
                     <div *ngFor="let horaire of horairesSVS" class="schedule-item">{{ horaire }}</div>
                 </div>
             </div>
-            
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="station1">Station 1:</label>
+                        <input type="text" id="station1" [(ngModel)]="station1" class="form-control"
+                            placeholder="Enter first station">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="station2">Station 2:</label>
+                        <input type="text" id="station2" [(ngModel)]="station2" class="form-control"
+                            placeholder="Enter second station">
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-section mb-4">
+                <button class="btn btn-secondary" (click)="getStationToStationTimesVS()">Vers Station</button>
+                <button class="btn btn-secondary" (click)="getStationToStationTimesVB()">Vers Banlieue</button>
+            </div>
+
+            <div *ngIf="stationSchedule" class="mb-4">
+                <h2>Détails du bus entre {{ station1 }} et {{ station2 }}</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Nom Bus:</strong> {{ stationSchedule.NomBus }}</li>
+                    <li class="list-group-item"><strong>Temps Arrivée à la destination:</strong> {{ stationSchedule.TempsArriveeADestination }}</li>
+                    <li class="list-group-item"><strong>Temps Arrivée:</strong> {{ stationSchedule.TempsArrivee }}</li>
+                </ul>
+            </div> 
+            <!--<div *ngIf="stationSchedule" class="schedule-container">
+                <h2 class="schedule-title">Détails du bus</h2>
+                <div class="schedule-card">
+                    <pre>{{ stationSchedule | json }}</pre> 
+                </div>
+            </div>
+            -->
         </div>
+        
     </div>
-    
+
     <div id="about" class="section">
         <div class="container mt-4">
             <h2 class="text-center" style="color: #4caf50; font-size: 2.5rem; font-weight: bold; margin-bottom: 40px;">À propos</h2>
@@ -119,31 +171,15 @@
                 <div>
                     <h3>Adresse</h3>
                     <p>33 Avenue du Japon</p>
-                    <p>Montplaisir, Tunis</p>
-                    <p>Tunisie</p>
-                </div>
-            </div>
-            <div class="mt-4" style="color: #4caf50; text-align: center;">
-                <h3>Suivez-nous</h3>
-                <div class="social-icons mt-3">
-                    <a href="https://www.facebook.com/Transtu.tn" target="_blank" style="text-decoration: none; color: #3b5998; margin-right: 15px;">
-                        <i class="fab fa-facebook-f" style="font-size: 2rem;"></i>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" style="text-decoration: none; color: #0077b5; margin-left: 15px;">
-                        <i class="fab fa-linkedin-in" style="font-size: 2rem;"></i>
-                    </a>
+                    <p>1002 Tunis Belvédère</p>
                 </div>
             </div>
         </div>
     </div>
-    
-
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    
 </body>
+
 </html>
+

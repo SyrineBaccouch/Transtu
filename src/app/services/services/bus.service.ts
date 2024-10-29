@@ -36,4 +36,12 @@ export class BusService {
   listeHorairesStationVersStation(ligne: string, station: string): Observable<any> {
     return this.httpClient.get<any>(`${this.URL}/lhsvs/${ligne}/${station}`);
   }
+
+  getStationToStationTimesVS(st1: string, st2: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.URL}/test/${st1}/${st2}`);
+  }
+
+  getStationToStationTimesVB(st1: string, st2: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.URL}/test2/${st1}/${st2}`);
+  }
 }

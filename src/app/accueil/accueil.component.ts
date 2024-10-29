@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { BusService } from '../services/services/bus.service';  
 import { Bus } from '../models/bus';
 
+interface StationSchedule {
+  TempsArriveeADestination: string;
+  NomBus: string;
+  TempsArrivee: string;
+}
+
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.component.html',
@@ -11,16 +17,18 @@ export class AccueilComponent implements OnInit {
 
   ligne: string = '';  
   station: string = ''; 
+  station1: string = '';  
+  station2: string = '';  
   bus: Bus | null = null; 
   horairesVB: any = null; 
   horairesVS: any = null; 
   horairesSVB: any = null;
   horairesSVS: any = null; 
+  stationSchedule: any;  
 
   constructor(private busService: BusService) {}
 
   ngOnInit(): void {}
-
   getBusByLigne(): void {
     this.clearOtherData(); 
     if (this.ligne) {
@@ -81,22 +89,53 @@ export class AccueilComponent implements OnInit {
     }
   }
 
+  getStationToStationTimesVS(): void {
+    this.clearOtherData();
+    if (this.station1 && this.station2) {
+      this.busService.getStationToStationTimesVS(this.station1, this.station2).subscribe(
+        (data: StationSchedule) => {
+          console.log(data);  
+          this.stationSchedule = data;
+        },
+        error => this.handleError(error, 'station à station (Vers Station)')
+      );
+    } else {
+      alert('Entrez les deux stations.');
+    }
+  }
+
+  getStationToStationTimesVB(): void {
+    this.clearOtherData();
+    if (this.station1 && this.station2) {
+      this.busService.getStationToStationTimesVB(this.station1, this.station2).subscribe(
+        (data: StationSchedule) => {
+          console.log(data);  
+          this.stationSchedule = data;
+        },
+        error => this.handleError(error, 'station à station (Vers Banlieue)')
+      );
+    } else {
+      alert('Entrez les deux stations.');
+    }
+  }
+
   private clearOtherData(): void {
     this.bus = null;
     this.horairesVB = null;
     this.horairesVS = null;
     this.horairesSVB = null;
     this.horairesSVS = null;
+    this.stationSchedule = null; 
   }
 
   private handleError(error: any, context: string): void {
     console.error(`Error fetching ${context}:`, error);
     if (error.status === 404) {
-      alert(`${context.charAt(0).toUpperCase() + context.slice(1)} not found.`);
+      alert(`${context.charAt(0).toUpperCase() + context.slice(1)} `);
     } else if (error.status === 500) {
       alert('Server error');
     } else {
-      alert(`Failed to fetch ${context}. Please check your server connection.`);
+      alert(`Fail ${context}`);
     }
   }
 
