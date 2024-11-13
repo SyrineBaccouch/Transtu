@@ -38,10 +38,10 @@ export class BusService {
   }
 
   getStationToStationTimesVS(st1: string, st2: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.URL}/test/${st1}/${st2}`);
+    return this.httpClient.get<any>(`${this.URL}/stationVersStation_VS/${st1}/${st2}`);
   }
 
   getStationToStationTimesVB(st1: string, st2: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.URL}/test2/${st1}/${st2}`);
+    return this.httpClient.get<any>(`${this.URL}/stationVersStation_VB/${st1}/${st2}`);
   }
 }

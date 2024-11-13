@@ -10,7 +10,7 @@
 </head>
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -127,18 +127,11 @@
             <div *ngIf="stationSchedule" class="mb-4">
                 <h2>Détails du bus entre {{ station1 }} et {{ station2 }}</h2>
                 <ul class="list-group">
-                    <li class="list-group-item"><strong>Nom Bus:</strong> {{ stationSchedule.NomBus }}</li>
-                    <li class="list-group-item"><strong>Temps Arrivée à la destination:</strong> {{ stationSchedule.TempsArriveeADestination }}</li>
-                    <li class="list-group-item"><strong>Temps Arrivée:</strong> {{ stationSchedule.TempsArrivee }}</li>
+                    <li class="list-group-item"><strong>Nom Bus:</strong> {{ stationSchedule.Nom_Bus }}</li>
+                    <li class="list-group-item"><strong>Temps Arrivée:</strong> {{ stationSchedule.Temps_Arrivee }}</li>
+                    <li class="list-group-item"><strong>Temps Arrivée à la destination:</strong> {{ stationSchedule.Temps_Arrivee_a_la_destination }}</li>
                 </ul>
             </div> 
-            <!--<div *ngIf="stationSchedule" class="schedule-container">
-                <h2 class="schedule-title">Détails du bus</h2>
-                <div class="schedule-card">
-                    <pre>{{ stationSchedule | json }}</pre> 
-                </div>
-            </div>
-            -->
         </div>
         
     </div>

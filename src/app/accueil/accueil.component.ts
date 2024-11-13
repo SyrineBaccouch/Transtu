@@ -24,7 +24,7 @@ export class AccueilComponent implements OnInit {
   horairesVS: any = null; 
   horairesSVB: any = null;
   horairesSVS: any = null; 
-  stationSchedule: any;  
+  stationSchedule : any ;  
 
   constructor(private busService: BusService) {}
 
@@ -93,9 +93,10 @@ export class AccueilComponent implements OnInit {
     this.clearOtherData();
     if (this.station1 && this.station2) {
       this.busService.getStationToStationTimesVS(this.station1, this.station2).subscribe(
-        (data: StationSchedule) => {
+        (data: any) => {
           console.log(data);  
           this.stationSchedule = data;
+          console.log(this.stationSchedule)
         },
         error => this.handleError(error, 'station à station (Vers Station)')
       );
@@ -125,7 +126,7 @@ export class AccueilComponent implements OnInit {
     this.horairesVS = null;
     this.horairesSVB = null;
     this.horairesSVS = null;
-    this.stationSchedule = null; 
+    this.stationSchedule != null; 
   }
 
   private handleError(error: any, context: string): void {
