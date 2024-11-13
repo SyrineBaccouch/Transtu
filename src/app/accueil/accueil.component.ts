@@ -126,7 +126,7 @@ export class AccueilComponent implements OnInit {
     this.horairesVS = null;
     this.horairesSVB = null;
     this.horairesSVS = null;
-    this.stationSchedule != null; 
+    this.stationSchedule != null
   }
 
   private handleError(error: any, context: string): void {
