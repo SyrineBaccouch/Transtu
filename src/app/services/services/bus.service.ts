@@ -38,10 +38,26 @@ export class BusService {
   }
 
   getStationToStationTimesVS(st1: string, st2: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.URL}/stationVersStation_VS/${st1}/${st2}`);
+    const s1 = encodeURIComponent(st1);
+    const s2 = encodeURIComponent(st2);
+    return this.httpClient.get<any>(`${this.URL}/stationVersStation_VS/${s1}/${s2}`);
   }
 
   getStationToStationTimesVB(st1: string, st2: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.URL}/stationVersStation_VB/${st1}/${st2}`);
+    const s1 = encodeURIComponent(st1);
+    const s2 = encodeURIComponent(st2);
+    return this.httpClient.get<any>(`${this.URL}/stationVersStation_VB/${s1}/${s2}`);
+  }
+  
+  getAllLignesNames(){
+    return this.httpClient.get<any>(`${this.URL}/getLignes`);
+  }
+  
+  getStationsByLigne(ligne : string){
+    return this.httpClient.get<any>(`${this.URL}/getStationOf/${ligne}`);
+  }
+  
+  getAllStations(){
+    return this.httpClient.get<any>(`${this.URL}/getAllStations`);
   }
 }

@@ -15,6 +15,7 @@ interface StationSchedule {
 })
 export class AccueilComponent implements OnInit {
 
+
   ligne: string = '';  
   station: string = ''; 
   station1: string = '';  
@@ -26,9 +27,44 @@ export class AccueilComponent implements OnInit {
   horairesSVS: any = null; 
   stationSchedule : any ;  
 
+  tousLesStations : any [] = [];
+  tousLesStations2 : any[] = [] ;
+  tousLesLignes : string [] = [];
+  errorMessage: string = "";
+
   constructor(private busService: BusService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+    this.busService.getAllLignesNames().subscribe(
+      (data : string[]) =>{
+        this.tousLesLignes = data;
+        //console.log(this.tousLesLignes);
+      }
+    )
+
+    this.busService.getAllStations().subscribe(
+      ( data : StationSchedule[] ) =>{
+        this.tousLesStations = data;
+        console.log(this.tousLesStations);
+      }
+    )
+
+  }
+
+  Change($event: Event) : void {
+    console.log(this.station2);
+  }
+   
+  
+
+  
+  filteredStations(): any[] {
+    console.log(this.tousLesStations.filter(station => station.nom !== this.station1));
+    return this.tousLesStations.filter(station => station.nom !== this.station1);
+  }
+
+
   getBusByLigne(): void {
     this.clearOtherData(); 
     if (this.ligne) {
@@ -101,7 +137,7 @@ export class AccueilComponent implements OnInit {
         error => this.handleError(error, 'station à station (Vers Station)')
       );
     } else {
-      alert('Entrez les deux stations.');
+      this.errorMessage = "Veuillez choisir 2 stations"
     }
   }
 
@@ -116,11 +152,12 @@ export class AccueilComponent implements OnInit {
         error => this.handleError(error, 'station à station (Vers Banlieue)')
       );
     } else {
-      alert('Entrez les deux stations.');
+      this.errorMessage = "Veuillez choisir 2 stations"
     }
   }
 
   private clearOtherData(): void {
+    this.errorMessage = "";
     this.bus = null;
     this.horairesVB = null;
     this.horairesVS = null;
@@ -134,7 +171,7 @@ export class AccueilComponent implements OnInit {
     if (error.status === 404) {
       alert(`${context.charAt(0).toUpperCase() + context.slice(1)} `);
     } else if (error.status === 500) {
-      alert('Server error');
+      this.errorMessage = "il n'y a pas de trajet direct pour ses deux station :("
     } else {
       alert(`Fail ${context}`);
     }
@@ -142,5 +179,14 @@ export class AccueilComponent implements OnInit {
 
   formatJson(data: any): string {
     return JSON.stringify(data, null, 2);  
+  }
+
+  onLigneChange(event: Event): void {
+    this.busService.getStationsByLigne(this.ligne).subscribe(
+      (data : StationSchedule[])=> {
+        this.stationSchedule = data;
+        console.log(this.stationSchedule);
+      }
+    )
   }
 }
