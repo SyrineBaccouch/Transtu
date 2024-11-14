@@ -14,6 +14,11 @@ body {
     padding-top: 80px; 
 }
 
+
+.leaflet-routing-container {
+    display: none !important;
+  }
+
 .navbar {
     background-color: var(--primary-color);
     height: 80px;
@@ -37,6 +42,7 @@ body {
 #home {
     height: auto;
     padding-top: 80px; 
+    margin-bottom: -15%;
 }
 
 .container {
@@ -46,6 +52,32 @@ body {
     padding: 30px;
     margin-top: 30px;
 }
+
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  /* Set the height of the map container */
+  .mapContainer {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    height: 600px; /* Make sure height is set */
+    overflow: hidden;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    width: 60%; /* Make sure the container takes up full width */
+  }
+  
+  /* Ensure the map fills its container */
+  #map {
+    height: 100%;
+    width: 100%;
+  }
 
 h1, h2 {
     color: var(--primary-color);
@@ -96,12 +128,7 @@ h1, h2 {
     position: relative; 
 }
 
-#map {
-    height: 100%; 
-    width: 100%; 
-    position: relative;
-    z-index: 1; 
-}
+
 
 .list-group-item {
     background-color: #f9fbe7;

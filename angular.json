@@ -87,9 +87,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css", 
+              "https://unpkg.com/leaflet/dist/leaflet.css"
             ],
-            "scripts": []
+            "scripts": [
+              "https://unpkg.com/leaflet/dist/leaflet.js"                          
+            ]
           }
         }
       }
