@@ -64,15 +64,17 @@ html, body {
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    height: 600px; /* Make sure height is set */
+    height: 900px; /* Make sure height is set */
     overflow: hidden;
     margin-left: 20%;
-    margin-right: 20%;
+    margin-right: 60%;
     margin-top: 10%;
-    margin-bottom: 10%;
     width: 60%; /* Make sure the container takes up full width */
   }
   
+
+  
+
   /* Ensure the map fills its container */
   #map {
     height: 100%;

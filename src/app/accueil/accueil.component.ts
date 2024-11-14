@@ -55,6 +55,7 @@ export class AccueilComponent implements OnInit {
     this.busService.getAllStations().subscribe(
       ( data : StationSchedule[] ) =>{
         this.tousLesStations = data;
+        
         console.log(this.tousLesStations);
       }
     )
@@ -78,15 +79,16 @@ export class AccueilComponent implements OnInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
-
+    
+/*
     var st1 = L.icon({
       iconUrl: '../../assets/station.png',
       iconSize:     [29.25, 32], // size of the icon
       iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
       popupAnchor:  [-3, -76]
   });
-  //L.marker([e.latlng.lat, e.latlng.lng], {icon: st1}).addTo(this.map);
-  
+  L.marker([36.695764,10.388917], {icon: st1}).addTo(this.map);
+  /*
   this.routingControl = (L as any).Routing.control({
     waypoints: [
       L.latLng(36.798811, 10.189407),
@@ -99,13 +101,10 @@ export class AccueilComponent implements OnInit {
       styles: [{ color: '#BA256B', opacity: 1, weight: 10 }]
     }
   }).addTo(this.map);
-
+*/
   // Manually hide the itinerary panel if it still appears
-  const routingContainer = document.querySelector('.leaflet-routing-container');
-  if (routingContainer) {
-    routingContainer.setAttribute('style', 'display: none !important');
-  }
-
+  
+    
 
 
 
@@ -201,12 +200,16 @@ export class AccueilComponent implements OnInit {
           console.log(data);  
           this.stationSchedule = data;
           console.log(this.stationSchedule)
+          this.stationVersStationMapped(this.stationSchedule.Nom_Bus);
+          
         },
         error => this.handleError(error, 'station à station (Vers Station)')
       );
     } else {
       this.errorMessage = "Veuillez choisir 2 stations"
     }
+
+    
   }
 
   getStationToStationTimesVB(): void {
@@ -250,11 +253,118 @@ export class AccueilComponent implements OnInit {
   }
 
   onLigneChange(event: Event): void {
+    this.clearExistingMarkersAndRoute();
     this.busService.getStationsByLigne(this.ligne).subscribe(
       (data : StationSchedule[])=> {
         this.stationSchedule = data;
         console.log(this.stationSchedule);
       }
-    )
+    );
+    this.busService.getAllStationsCoordsOfLigne(this.ligne).subscribe(
+      (data: any[]) => {
+        
+        const waypoints: L.LatLng[] = [];
+        for (let i = 0; i < data.length; i += 2) {
+          const stationName = data[i];
+          const coords = data[i + 1];
+          if (Array.isArray(coords) && coords.length === 2) {
+            const latLng = L.latLng(coords[0], coords[1]);
+            waypoints.push(latLng);
+            L.marker(latLng)
+              .addTo(this.map)
+              .bindPopup(stationName)
+              .openPopup();
+          }
+        }
+        
+        this.routingControl = (L as any).Routing.control({
+          waypoints: waypoints,
+          routeWhileDragging: true,
+          addWaypoints: true,
+          createMarker: () => null, 
+          lineOptions: {
+            styles: [{ color: '#b600ff', opacity: 1, weight: 10 }]
+          }
+        }).addTo(this.map);
+        const routingContainer = document.querySelector('.leaflet-routing-container');
+        if (routingContainer) {
+          routingContainer.setAttribute('style', 'display: none !important');
+        }
+      },
+      (error) => {
+        console.error("Error fetching coordinates:", error);
+      }
+    );
   }
+
+
+  stationVersStationMapped(ligne : string): void {
+    this.clearExistingMarkersAndRoute();
+
+    this.busService.getAllStationsCoordsOfLigne(ligne).subscribe(
+      (data: any[]) => {
+        const allWaypoints: L.LatLng[] = [];
+        const markers: L.Marker[] = [];
+  
+        const stationsToKeep = [this.station1, this.station2];
+
+        for (let i = 0; i < data.length; i += 2) {
+          const stationName = data[i];
+          const coords = data[i + 1];
+  
+          // Ensure coordinates are in the correct format (an array of [latitude, longitude])
+          if (Array.isArray(coords) && coords.length === 2) {
+            const latLng = L.latLng(coords[0], coords[1]);
+  
+            // If the station is in the stationsToKeep array, add it to the waypoints and markers
+            if (stationsToKeep.includes(stationName)) {
+              allWaypoints.push(latLng);
+  
+              // Create a marker for the station
+              const marker = L.marker(latLng)
+                .addTo(this.map)
+                .bindPopup(stationName); // Display station name on click
+              markers.push(marker);
+            }
+          } else {
+            console.warn(`Invalid coordinates for ${stationName}:`, coords);
+          }
+        }
+        
+        // Initialize the routing control with the visible waypoints
+        this.routingControl = (L as any).Routing.control({
+          waypoints: allWaypoints,
+          routeWhileDragging: true,
+          addWaypoints: true,
+          createMarker: () => null, // Disable default routing markers (optional)
+          lineOptions: {
+            styles: [{ color: '#BA256B', opacity: 1, weight: 10 }] // Styling the route line
+          }
+        }).addTo(this.map);
+      },
+      (error) => {
+        console.error("Error fetching coordinates:", error);
+      }
+    );
+  }
+
+
+
+
+  clearExistingMarkersAndRoute(): void {
+    // Remove all existing markers (if any)
+    this.map.eachLayer((layer: any) => {
+      if (layer instanceof L.Marker) {
+        this.map.removeLayer(layer);
+      }
+    });
+  
+    // Clear the existing waypoints (if routing control exists)
+    if (this.routingControl) {
+      this.routingControl.setWaypoints([]);
+    }
+  }
+
+
+
 }

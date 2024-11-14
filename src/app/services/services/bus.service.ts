@@ -60,4 +60,12 @@ export class BusService {
   getAllStations(){
     return this.httpClient.get<any>(`${this.URL}/getAllStations`);
   }
+  
+  getAllStationsCoordsOfLigne(ligne : string){
+    return this.httpClient.get<any[]>(`${this.URL}/getAllStationsCoordsOfLigne/${ligne}`);
+  }
+  
+  getStationCoords(Station : string){
+    return this.httpClient.get<any[]>(`${this.URL}/getStationCoords/${Station}`);
+  }
 }
