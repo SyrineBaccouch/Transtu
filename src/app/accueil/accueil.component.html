@@ -65,15 +65,16 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="station">Station:</label>
-                        <select id="station" [(ngModel)]="station" class="form-control" placeholder="Enter station (Optional)">
-                            <option *ngFor="let station of stationSchedule" >
+                        <select id="station" [(ngModel)]="station" class="form-control">
+                            <option value="Veuillez selectionner une station">Veuillez selectionner une station</option>
+                            <option *ngFor="let station of stationsDeLaLigneSelectionnee" (value)="station.nom" >
                                 {{ station.nom }}
                         </select>
                     </div>
                 </div>
             </div>
             <div class="button-section mb-4">
-                <button class="btn btn-secondary" (click)="getBusByLigne()">Bus par Ligne</button>
+                <button class="btn btn-secondary" (click)="getBusByLigne()">Info de la ligne</button>
                 <button class="btn btn-secondary" (click)="getHorairesVersBanlieue()">Horaires Vers Banlieue</button>
                 <button class="btn btn-secondary" (click)="getHorairesVersStation()">Horaires Vers Station</button>
                 <button class="btn btn-secondary" (click)="getHorairesStationVersBanlieue()">Horaires de Station au Banlieue</button>
@@ -117,6 +118,11 @@
                     <div *ngFor="let horaire of horairesSVS" class="schedule-item">{{ horaire }}</div>
                 </div>
             </div>
+
+
+            <div *ngIf="errorMessage2" class="alert alert-info mb-4" role="alert">
+                <strong>Oops! </strong> {{ errorMessage2 }}
+              </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">

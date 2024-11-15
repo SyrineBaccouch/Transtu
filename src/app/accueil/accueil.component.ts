@@ -41,6 +41,8 @@ export class AccueilComponent implements OnInit {
   errorMessage: string = "";
 
   private map!: L.Map;
+  stationsDeLaLigneSelectionnee: any[] = [];
+  errorMessage2: string = "";
   constructor(private busService: BusService) {}
 
   ngOnInit(): void {
@@ -55,7 +57,7 @@ export class AccueilComponent implements OnInit {
     this.busService.getAllStations().subscribe(
       ( data : StationSchedule[] ) =>{
         this.tousLesStations = data;
-        
+        this.tousLesStations = this.tousLesStations.sort((a, b) => a.nom.localeCompare(b.nom));
         console.log(this.tousLesStations);
       }
     )
@@ -127,12 +129,13 @@ export class AccueilComponent implements OnInit {
 
   
   filteredStations(): any[] {
-    console.log(this.tousLesStations.filter(station => station.nom !== this.station1));
+   // console.log(this.tousLesStations.filter(station => station.nom !== this.station1));
     return this.tousLesStations.filter(station => station.nom !== this.station1);
   }
 
 
   getBusByLigne(): void {
+    //console.log(this.station)
     this.clearOtherData(); 
     if (this.ligne) {
       this.busService.getBusByLigne(this.ligne).subscribe(
@@ -140,8 +143,43 @@ export class AccueilComponent implements OnInit {
         error => this.handleError(error, 'bus')
       );
     } else {
-      alert('Entrez un ligne.');
+      this.errorMessage2 = "Entrez une ligne.";
     }
+    this.busService.getAllStationsCoordsOfLigne(this.ligne).subscribe(
+      (data: any[]) => {
+        
+        const waypoints: L.LatLng[] = [];
+        for (let i = 0; i < data.length; i += 2) {
+          const stationName = data[i];
+          const coords = data[i + 1];
+          if (Array.isArray(coords) && coords.length === 2) {
+            const latLng = L.latLng(coords[0], coords[1]);
+            waypoints.push(latLng);
+            L.marker(latLng)
+              .addTo(this.map)
+              .bindPopup(stationName)
+              .openPopup();
+          }
+        }
+        
+        this.routingControl = (L as any).Routing.control({
+          waypoints: waypoints,
+          routeWhileDragging: true,
+          addWaypoints: true,
+          createMarker: () => null, 
+          lineOptions: {
+            styles: [{ color: '#b600ff', opacity: 1, weight: 10 }]
+          }
+        }).addTo(this.map);
+        const routingContainer = document.querySelector('.leaflet-routing-container');
+        if (routingContainer) {
+          routingContainer.setAttribute('style', 'display: none !important');
+        }
+      },
+      (error) => {
+        console.error("Error fetching coordinates:", error);
+      }
+    );
   }
 
   getHorairesVersBanlieue(): void {
@@ -152,7 +190,7 @@ export class AccueilComponent implements OnInit {
         error => this.handleError(error, 'horaires vers banlieue')
       );
     } else {
-      alert('Entrez une ligne.');
+      this.errorMessage2 = 'Entrez une ligne.';
     }
   }
 
@@ -164,19 +202,20 @@ export class AccueilComponent implements OnInit {
         error => this.handleError(error, 'horaires vers station')
       );
     } else {
-      alert('Entrez une ligne.');
+      this.errorMessage2 = 'Entrez une ligne.';
     }
   }
 
   getHorairesStationVersBanlieue(): void {
     this.clearOtherData(); 
     if (this.ligne && this.station) {
+      //alert(this.ligne +" "+ this.station)
       this.busService.listeHorairesStationVersBanlieue(this.ligne, this.station).subscribe(
         (data: any) => this.horairesSVB = data,
         error => this.handleError(error, 'horaires de station au banlieue')
       );
     } else {
-      alert('Entrez une ligne et une station, les deux');
+      this.errorMessage2 = ('Entrez une ligne et une station, les deux');
     }
   }
 
@@ -188,7 +227,7 @@ export class AccueilComponent implements OnInit {
         error => this.handleError(error, 'horaires de station à une station')
       );
     } else {
-      alert('Entrez une ligne et une station, les deux');
+      this.errorMessage2 = ('Entrez une ligne et une station, les deux');
     }
   }
 
@@ -197,9 +236,9 @@ export class AccueilComponent implements OnInit {
     if (this.station1 && this.station2) {
       this.busService.getStationToStationTimesVS(this.station1, this.station2).subscribe(
         (data: any) => {
-          console.log(data);  
+          //console.log(data);  
           this.stationSchedule = data;
-          console.log(this.stationSchedule)
+          //console.log(this.stationSchedule)
           this.stationVersStationMapped(this.stationSchedule.Nom_Bus);
           
         },
@@ -217,7 +256,7 @@ export class AccueilComponent implements OnInit {
     if (this.station1 && this.station2) {
       this.busService.getStationToStationTimesVB(this.station1, this.station2).subscribe(
         (data: StationSchedule) => {
-          console.log(data);  
+          //console.log(data);  
           this.stationSchedule = data;
         },
         error => this.handleError(error, 'station à station (Vers Banlieue)')
@@ -229,6 +268,7 @@ export class AccueilComponent implements OnInit {
 
   private clearOtherData(): void {
     this.errorMessage = "";
+    this.errorMessage2 = "";
     this.bus = null;
     this.horairesVB = null;
     this.horairesVS = null;
@@ -256,8 +296,11 @@ export class AccueilComponent implements OnInit {
     this.clearExistingMarkersAndRoute();
     this.busService.getStationsByLigne(this.ligne).subscribe(
       (data : StationSchedule[])=> {
-        this.stationSchedule = data;
-        console.log(this.stationSchedule);
+        this.stationsDeLaLigneSelectionnee = data;
+        this.stationsDeLaLigneSelectionnee = this.stationsDeLaLigneSelectionnee.sort((a, b) => a.nom.localeCompare(b.nom));
+
+    // Log the sorted array
+    console.log(this.stationsDeLaLigneSelectionnee);
       }
     );
     this.busService.getAllStationsCoordsOfLigne(this.ligne).subscribe(
