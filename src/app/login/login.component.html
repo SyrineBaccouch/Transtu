@@ -1,9 +1,9 @@
 
 <div class="login-container">
     <div class="login-card">
-      <h2 class="login-title" routerLink="/accueil" style="color: blue;text-decoration: underline;cursor: pointer;">BusEase</h2>
+      <h2 class="login-title" routerLink="/accueil" style="color: blue;text-decoration: underline;cursor: pointer;" >BusEase</h2>
       <h3>Connecter vous pour recevoir des emails sur vos bus favoris</h3>
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="email">Email</label>
           <input 
@@ -14,6 +14,9 @@
             placeholder="Enter your email" 
             required
           />
+          <div *ngIf="emailMessage" [ngClass]="{'error-message': isErrorEmail, 'success-message': !isErrorEmail}">
+            {{ emailMessage }}
+          </div>
         </div>
         <div class="form-group">
           <label for="mdp">Password</label>
@@ -25,9 +28,15 @@
             placeholder="Enter your password" 
             required
           />
-          <h3 (click)="popup.open()" style="text-decoration: underline;cursor: pointer; color: rgb(76, 76, 177); font-size: 8;"> Vous avez perdu votre mdp?</h3>
-          <app-recup-mdp #popup></app-recup-mdp>
+          <div *ngIf="mdpMessage" [ngClass]="{'error-message': isErrorMdp, 'success-message': !isErrorMdp}">
+            {{ mdpMessage }}
+          </div>
+          <h3 (click)="popup.open()" class="forgot-password">Vous avez perdu votre mdp?</h3>
+<app-recup-mdp #popup></app-recup-mdp>
 
+          <div *ngIf="errorMessage" [ngClass]="{'error-message': isError, 'success-message': !isError}">
+            {{ errorMessage }}
+          </div>
         </div>
         <button class="btn btn-login">Sign In</button>
         <h3> Vous avez pas un compte? <span routerLink="/register" style="text-decoration: underline; color: blue; cursor: pointer;" >S'enregister?</span> </h3>

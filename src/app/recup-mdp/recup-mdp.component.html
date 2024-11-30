@@ -1,25 +1,22 @@
 <div class="popup-overlay" *ngIf="isVisible">
-    <div class="popup-content">
-        <h4> {{ message }} </h4>
-        <div *ngIf="!envoyee&&!confirme">
-          <h2>Veuillez saisir votre email</h2>
-          <input type="email" [(ngModel)]="email" placeholder="Email..." />
-        </div>
-        <div *ngIf="envoyee">
-          <input type="number" [(ngModel)]="code" placeholder="Code..." />
-        </div>
-        <div *ngIf="confirme">
-          <input type="password" [(ngModel)]="mdp" placeholder="Mdp..." />
-        </div>
-        
-        <div *ngIf="confirme">
-            <button (click)="modifierMdp()" (click)="close()">Modifier Mdp</button>
-            <button (click)="close()">Close</button>
-        </div>
-        <div *ngIf="!confirme">
-            <button (click)="submit()">Submit</button>
-            <button (click)="close()">Close</button>
-        </div>
+  <div class="popup-content">
+    <h4 class="popup-message">{{ message }}</h4>
+    <div *ngIf="!envoyee && !confirme" class="input-group">
+      <h2>Veuillez saisir votre email</h2>
+      <input type="email" [(ngModel)]="email" placeholder="Email..." />
+    </div>
+    <div *ngIf="envoyee" class="input-group">
+      <input type="number" [(ngModel)]="code" placeholder="Code..." />
+    </div>
+    <div *ngIf="confirme" class="input-group">
+      <input type="password" [(ngModel)]="mdp" placeholder="Mdp..." />
+    </div>
+    
+    <div class="button-group">
+      <button *ngIf="confirme" (click)="modifierMdp()" (click)="close()" class="btn btn-primary">Modifier Mdp</button>
+      <button *ngIf="!confirme" (click)="submit()" class="btn btn-primary">Submit</button>
+      <button (click)="close()" class="btn btn-secondary">Close</button>
     </div>
   </div>
-  
+</div>
+

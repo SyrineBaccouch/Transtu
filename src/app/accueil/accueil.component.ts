@@ -47,6 +47,8 @@ export class AccueilComponent implements OnInit {
   stationsDeLaLigneSelectionnee: any[] = [];
   errorMessage2: string = "";
   conUserId: string | null | undefined;
+  
+
   //voyageurId: string | null;
   constructor(private busService: BusService, private route : Router) {}
 

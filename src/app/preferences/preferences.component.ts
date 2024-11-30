@@ -9,11 +9,16 @@ import { BusService } from '../services/services/bus.service';
 export class PreferencesComponent {
   aa: any[]= [];
 
+  noUser: boolean = true;
+
   constructor(private busservice : BusService){}
 
   ngOnInit(){
 
-    this.userPreferences();
+    if (localStorage.getItem("voyageur")!=null){
+      this.noUser= false;
+      this.userPreferences();
+    }
     
 
   }

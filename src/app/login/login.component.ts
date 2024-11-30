@@ -16,34 +16,77 @@ export class LoginComponent {
 
 
   test : Boolean = true;
+  errorMessage: any;
+  isError: any;
+  emailMessage: string ='';
+  mdpMessage: string ='';
+  isErrorEmail: any;
+  isErrorMdp: any;
 
 
   constructor( private authService : AuthentificationServiceService, private fb: FormBuilder , private route : Router){
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      mdp: ['', [Validators.required, Validators.minLength(60)]],
+      mdp: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
 
-  login(){
-    if(this.test == true){
 
-      const req = (this.loginForm.value);
-      console.log(req)
-      this.authService.login(req).subscribe(
-        (data : any) =>{
-          console.log(data);
-          localStorage.setItem("voyageur",data);
-          this.route.navigateByUrl('/accueil'); 
-        },
-        (error)=>{
-          console.log(error);
-        }
-      )
-    }
-    
+  onSubmit(){
+    this.resetMessages();
+    if (this.isFormPopulated()){
+      this.showErrorMessages();
+    }else{
+      this.login();
+    } 
   }
 
+  login(){
+    const req = (this.loginForm.value);
+      this.authService.login(req).subscribe(
+        (data : any) =>{
+          localStorage.setItem("voyageur",data);
+          this.route.navigateByUrl('/accueil'); 
+          this.isError = false;
+        },
+        (error)=>{
+          this.errorMessage = 'User not found. Please check your email or password.';
+          this.isError = true;
+        }
+      )
+  }
+
+  isFormPopulated(): boolean {
+    const email = this.loginForm.get('email')?.value?.trim();
+    const mdp = this.loginForm.get('mdp')?.value?.trim();
+    return !email || !mdp;
+  }
+
+  showErrorMessages(){
+    if (this.loginForm.get('email')?.invalid ) {
+      this.emailMessage = 'Verifier votre email. ';
+      this.isErrorEmail = true;
+    }
+    if (this.loginForm.get('mdp')?.invalid ) {
+      
+      this.mdpMessage = 'Verifier votre mot de passe. ';
+      this.isErrorMdp = true;
+    }
+    if (this.loginForm.get('email') == null && this.loginForm.get('mdp') ){
+      this.isError = true;
+      this.errorMessage = 'Veuillez saisir vos données';
+    }
+  }
+
+  resetMessages(){
+    this.errorMessage = '';
+    this.emailMessage = '';
+    this.mdpMessage = '';
+
+    this.isError = false;
+    this.isErrorEmail = false;
+    this.isErrorMdp = false;
+  }
 
 }

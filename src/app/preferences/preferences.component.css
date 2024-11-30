@@ -49,7 +49,7 @@
     transition: background-color 0.3s ease, transform 0.1s ease;
   }
   .btn:hover {
-    background-color: #4CAF50; /* Green on hover */
+    background-color: #555555; /* Green on hover */
     color: white;
   }
   .btn:active {
@@ -61,6 +61,16 @@
 
   .important-title {
     font-size: 2.5rem; /* Larger font size */
+    color: #4CAF50; /* Green color to match the table's theme */
+    text-align: center; /* Centered title */
+    font-weight: bold; /* Makes the text stand out */
+    margin-bottom: 20px; /* Space between the title and table */
+    text-transform: uppercase; /* Makes the text all uppercase */
+    letter-spacing: 2px; /* Adds spacing between letters */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}
+  .important-text {
+    font-size: 1.6rem; /* Larger font size */
     color: #4CAF50; /* Green color to match the table's theme */
     text-align: center; /* Centered title */
     font-weight: bold; /* Makes the text stand out */

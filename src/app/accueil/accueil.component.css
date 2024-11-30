@@ -20,7 +20,7 @@ body {
   }
 
 .navbar {
-    background-color: var(--primary-color);
+    background-color: rgba(100, 100, 100, 0.563);
     height: 80px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
