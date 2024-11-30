@@ -1,0 +1,25 @@
+<div class="popup-overlay" *ngIf="isVisible">
+    <div class="popup-content">
+        <h4> {{ message }} </h4>
+        <div *ngIf="!envoyee&&!confirme">
+          <h2>Veuillez saisir votre email</h2>
+          <input type="email" [(ngModel)]="email" placeholder="Email..." />
+        </div>
+        <div *ngIf="envoyee">
+          <input type="number" [(ngModel)]="code" placeholder="Code..." />
+        </div>
+        <div *ngIf="confirme">
+          <input type="password" [(ngModel)]="mdp" placeholder="Mdp..." />
+        </div>
+        
+        <div *ngIf="confirme">
+            <button (click)="modifierMdp()" (click)="close()">Modifier Mdp</button>
+            <button (click)="close()">Close</button>
+        </div>
+        <div *ngIf="!confirme">
+            <button (click)="submit()">Submit</button>
+            <button (click)="close()">Close</button>
+        </div>
+    </div>
+  </div>
+  

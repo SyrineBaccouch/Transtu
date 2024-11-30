@@ -1,0 +1,71 @@
+.custom-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; /* Centers the table horizontally */
+  }
+  .custom-table thead th {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    text-align: center; /* Centers the text */
+    font-size: 1.2rem;
+    padding: 12px 15px; /* Keeps padding for spacing */
+}
+
+  .custom-table thead tr {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    text-align: left;
+    font-size: 1.2rem;
+  }
+  .custom-table th, .custom-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd; /* Light gray */
+  }
+  .custom-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light gray */
+  }
+  .custom-table tbody tr:nth-child(odd) {
+    background-color: #fff;
+  }
+  .custom-table tbody tr:hover {
+    background-color: #FFEB3B; /* Yellow hover effect */
+    cursor: pointer;
+  }
+  .custom-table td {
+    font-size: 1rem;
+    color: #333; /* Dark gray for readability */
+  }
+  .btn {
+    padding: 8px 12px;
+    background-color: #FFC107; /* Yellow default button */
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+  }
+  .btn:hover {
+    background-color: #4CAF50; /* Green on hover */
+    color: white;
+  }
+  .btn:active {
+    background-color: #808080; /* Grey when clicked */
+    color: white;
+    transform: scale(0.95); /* Slightly shrink button for click feedback */
+  }
+
+
+  .important-title {
+    font-size: 2.5rem; /* Larger font size */
+    color: #4CAF50; /* Green color to match the table's theme */
+    text-align: center; /* Centered title */
+    font-weight: bold; /* Makes the text stand out */
+    margin-bottom: 20px; /* Space between the title and table */
+    text-transform: uppercase; /* Makes the text all uppercase */
+    letter-spacing: 2px; /* Adds spacing between letters */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}

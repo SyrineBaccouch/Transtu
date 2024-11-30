@@ -1,0 +1,19 @@
+<h1 class="important-title">Vos préférences</h1>
+<table class="custom-table">
+    <thead>
+      <tr>
+        <th>Station</th>
+        <th>Ligne</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let stop of aa">
+        <td>{{  stop.stationFavoris }}</td>
+        <td>{{ stop.busFavoris }}</td>
+        <td>
+          <button class="btn btn-action" (click)="supprimerPreference(stop.id)" >Supprimer cette preference</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

@@ -4,6 +4,7 @@ import { Bus } from '../models/bus';
 import * as L from 'leaflet';
 
 import 'leaflet-routing-machine';
+import { Route, Router } from '@angular/router';
 
 //import './Control.Coordinates';
 
@@ -22,6 +23,8 @@ interface StationSchedule {
   styleUrls: ['./accueil.component.css']
 })
 export class AccueilComponent implements OnInit {
+
+
   //private routingControl: L.Routing.Control | null = null;
   private routingControl: any;
   ligne: string = '';  
@@ -43,10 +46,11 @@ export class AccueilComponent implements OnInit {
   private map!: L.Map;
   stationsDeLaLigneSelectionnee: any[] = [];
   errorMessage2: string = "";
-  constructor(private busService: BusService) {}
+  conUserId: string | null | undefined;
+  //voyageurId: string | null;
+  constructor(private busService: BusService, private route : Router) {}
 
   ngOnInit(): void {
-    
     this.busService.getAllLignesNames().subscribe(
       (data : string[]) =>{
         this.tousLesLignes = data;
@@ -65,8 +69,51 @@ export class AccueilComponent implements OnInit {
       this.initMap();
     }, 0);
     
+    this.test();
 
   }
+
+  logOut() {
+    localStorage.removeItem("voyageur");
+    window.location.reload();  
+  }
+
+
+  test(){
+    if (localStorage.getItem("voyageur")!=null){
+      this.conUserId = localStorage.getItem("voyageur");
+
+    }
+    if (localStorage.getItem("voyageur")==null){
+   
+    }
+  }
+
+
+  enregistrerPreference() {
+    const voyId = localStorage.getItem("voyageur");
+
+    const pref = {
+      "busFavoris": this.ligne,
+      "stationFavorite":this.station
+    }
+
+    console.log(pref);
+    if ( voyId){
+      this.busService.enregistrerPreference(voyId as unknown as number ,pref).subscribe(
+        (data : boolean)=>{
+            if (data){
+              this.errorMessage = "preferences mise a jour!"
+            }
+        },
+        (error)=>{
+          console.log(error);
+        }
+    );
+    }
+  }
+
+
 
   ngAfterViewChecked() {
     // Invalidate map size after each change in the view
@@ -113,6 +160,13 @@ export class AccueilComponent implements OnInit {
   //this.map.on('click',this.onMapClick);
 
 }
+
+
+
+
+
+
+
 
   onMapClick(e: any){
     alert(e.latlng);

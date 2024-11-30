@@ -68,4 +68,18 @@ export class BusService {
   getStationCoords(Station : string){
     return this.httpClient.get<any[]>(`${this.URL}/getStationCoords/${Station}`);
   }
+  
+  enregistrerPreference(id : number , pref: any) :  Observable<any> {
+    return this.httpClient.put(`${this.URL}/${id}/preferences`,pref);
+  }
+  
+  
+  getPreferences(id: any): Observable<string[]>{
+    return this.httpClient.get<string[]>(`${this.URL}/preferences/${id}`);
+  }
+
+  supprimerPreference(id : any): Observable<any>{
+    return this.httpClient.delete<any>(`${this.URL}/supprimerPreference/${id}`);
+  }
+
 }

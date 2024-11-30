@@ -1,0 +1,48 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.popup-content {
+    background-color: white; /* Popup background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 300px; /* Fixed width */
+    text-align: center; /* Center text */
+}
+
+.popup-content h2 {
+    margin-bottom: 15px; /* Space between title and input */
+}
+
+.popup-content input {
+    width: 100%; /* Full width input */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px; /* Space between input and buttons */
+}
+
+.popup-content button {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px; /* Space between buttons */
+}
+
+.popup-content button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}

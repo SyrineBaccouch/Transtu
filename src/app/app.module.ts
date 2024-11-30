@@ -6,11 +6,22 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './register/register.component';
+import { RecupMdpComponent } from './recup-mdp/recup-mdp.component';
+import { PreferencesComponent } from './preferences/preferences.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AccueilComponent,
+    LoginComponent,
+    RegisterComponent,
+    RecupMdpComponent,
+    PreferencesComponent,
     
   ],
   imports: [
@@ -18,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     CommonModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

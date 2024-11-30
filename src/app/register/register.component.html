@@ -1,0 +1,66 @@
+<div class="register-container">
+    <div class="register-card">
+      <h2 class="register-title">Creer un compte</h2>
+      <div style="color: rgb(128, 0, 0);background-color: rgba(0, 128, 0, 0.192);margin-left: 15%;margin-right: 15%" > {{ errorMessage }} </div>
+      <form style="margin-top: 5%;" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input 
+            type="text" 
+            id="fullName" 
+            class="form-control smooth-input" 
+            name="fullName" 
+            formControlName="nomprenom" 
+            placeholder="Enter your full name" 
+            required
+          />
+          <span style="color: rgba(255, 30, 0, 0.89);margin-left: 5%;" *ngIf="nomMessage"> {{nomMessage}} </span>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            class="form-control smooth-input" 
+            name="email" 
+            formControlName="email" 
+            placeholder="Enter your email" 
+            required
+          />
+          <span style="color: rgba(255, 30, 0, 0.89);margin-left: 5%;" *ngIf="emailMessage"> {{emailMessage}} </span>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            class="form-control smooth-input" 
+            name="password" 
+            formControlName="mdp" 
+
+            placeholder="Enter your password" 
+            required
+          />
+          <span style="color: rgba(255, 30, 0, 0.89);margin-left: 5%;" *ngIf="mdpMessage"> {{mdpMessage}} </span>
+
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            class="form-control smooth-input" 
+            name="confirmPassword" 
+            formControlName="confirmPassword" 
+            placeholder="Confirm your password" 
+            required
+          />
+          <span style="color: rgba(255, 30, 0, 0.89);margin-left: 5%;" *ngIf="mdpMessage2"> {{mdpMessage2}} </span>
+
+        </div>
+        <button type="submit" class="btn btn-register">Register</button>
+        <h3>Vous avez un compte? <span style="text-decoration: underline; color: blue;cursor: pointer;" routerLink="/login"> Se connecter? </span></h3>
+      </form>
+    </div>
+  </div>
+  

@@ -1,0 +1,38 @@
+
+<div class="login-container">
+    <div class="login-card">
+      <h2 class="login-title" routerLink="/accueil" style="color: blue;text-decoration: underline;cursor: pointer;">BusEase</h2>
+      <h3>Connecter vous pour recevoir des emails sur vos bus favoris</h3>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            class="form-control smooth-input" 
+            formControlName="email" 
+            placeholder="Enter your email" 
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="mdp">Password</label>
+          <input 
+            type="password" 
+            id="mdp" 
+            class="form-control smooth-input" 
+            formControlName="mdp" 
+            placeholder="Enter your password" 
+            required
+          />
+          <h3 (click)="popup.open()" style="text-decoration: underline;cursor: pointer; color: rgb(76, 76, 177); font-size: 8;"> Vous avez perdu votre mdp?</h3>
+          <app-recup-mdp #popup></app-recup-mdp>
+
+        </div>
+        <button class="btn btn-login">Sign In</button>
+        <h3> Vous avez pas un compte? <span routerLink="/register" style="text-decoration: underline; color: blue; cursor: pointer;" >S'enregister?</span> </h3>
+      </form>
+      
+    </div>
+  </div>
+  

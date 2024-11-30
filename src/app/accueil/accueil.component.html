@@ -39,9 +39,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/preferences">Preferences </a></li>
                     <li class="nav-item"><a class="nav-link" href="#home">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contactez Nous</a></li>
+                    <li *ngIf="!conUserId" class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                    <li *ngIf="conUserId" class="nav-item"><a class="nav-link" (click)="logOut()" style="cursor: pointer;">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -62,7 +65,7 @@
                     </div>
                       
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6">                    
                     <div class="form-group">
                         <label for="station">Station:</label>
                         <select id="station" [(ngModel)]="station" class="form-control">
@@ -74,6 +77,8 @@
                 </div>
             </div>
             <div class="button-section mb-4">
+                <button class="btn btn-secondary" (click)="enregistrerPreference()"> Enregistrer preference</button>
+
                 <button class="btn btn-secondary" (click)="getBusByLigne()">Info de la ligne</button>
                 <button class="btn btn-secondary" (click)="getHorairesVersBanlieue()">Horaires Vers Banlieue</button>
                 <button class="btn btn-secondary" (click)="getHorairesVersStation()">Horaires Vers Station</button>

@@ -1,0 +1,100 @@
+/* login.component.css */
+
+body {
+    background-image: url(../../assets/pexels-alexander-isreb-880417-1784142.jpg); 
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+  }
+  
+  .login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #6c63ff, #48cae4);
+  }
+  
+  .login-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .login-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .smooth-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    margin-right: 5%;
+    box-sizing: border-box;
+  }
+  
+  .smooth-input:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.3);
+  }
+  
+  .btn-login {
+    background: #6c63ff;
+    color: #fff;
+    padding: 10px 15px;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .btn-login:hover {
+    background: #574bdb;
+  }
+  
+  .form-footer {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .form-footer a {
+    color: #6c63ff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .form-footer a:hover {
+    text-decoration: underline;
+  }
+
+h3{
+    font-weight: bold ;
+    font-size : 1rem;
+    font-family: 'Times New Roman', Times, serif;
+    color: #555;
+}
+  
