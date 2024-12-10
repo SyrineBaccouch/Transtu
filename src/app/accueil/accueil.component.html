@@ -54,7 +54,9 @@
 
     <div id="home" class="section">
         <div class="container mt-4">
-            <h1 class="mb-4">Bus Information</h1>
+            <h1 class="mb-4">Bus Information <button  [ngClass]="changeStyle()"
+  [disabled]="!conditionMet"  *ngIf="conUserId" style="margin-left: 80%;" class="btn" (click)="enregistrerPreference()"> Enregistrer ma preference</button>
+            </h1>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -70,7 +72,7 @@
                 <div class="col-md-6">                    
                     <div class="form-group">
                         <label for="station">Station:</label>
-                        <select id="station" [(ngModel)]="station" class="form-control">
+                        <select id="station" [(ngModel)]="station" (change)="onStationChange($event)" class="form-control">
                             <option value="Veuillez selectionner une station">Veuillez selectionner une station</option>
                             <option *ngFor="let station of stationsDeLaLigneSelectionnee" (value)="station.nom" >
                                 {{ station.nom }}
@@ -80,7 +82,6 @@
             </div>
             <div class="button-section mb-4">
 
-                <button *ngIf="conUserId" class="btn btn-secondary" (click)="enregistrerPreference()"> Enregistrer preference</button>
 
                 <button class="btn btn-secondary" (click)="getBusByLigne()">Info de la ligne</button>
                 <button class="btn btn-secondary" (click)="getHorairesVersBanlieue()">Horaires Vers Banlieue</button>
@@ -123,9 +124,10 @@
             <div *ngIf="horairesSVS" class="mb-4">
                 <h2>Horaires de Station à Station</h2>
                 <div class="schedule-container">
-                    <div *ngFor="let horaire of horairesSVS" class="schedule-item">{{ horaire }}</div>
+                  <span *ngFor="let horaire of horairesSVS" class="schedule-item">{{ horaire }}</span>
                 </div>
-            </div>
+              </div>
+              
 
 
             <div *ngIf="errorMessage2" class="alert alert-info mb-4" role="alert">

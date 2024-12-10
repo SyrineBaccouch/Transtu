@@ -14,6 +14,21 @@ body {
     padding-top: 80px; 
 }
 
+.schedule-container {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Wrap items if they don't fit in a single line */
+    gap: 10px; /* Space between items */
+  }
+  
+  .schedule-item {
+    display: inline-block; /* Ensures each item is inline */
+    padding: 5px 10px;
+    border: 1px solid #ccc; /* Optional styling */
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Optional styling */
+  }
+  
+
 
 .leaflet-routing-container {
     display: none !important;
@@ -259,4 +274,12 @@ h1, h2 {
     word-break: break-word; 
     margin: 0;
     line-height: 1.6;
+}
+.btn-primary1 {
+    background-color: rgba(255, 0, 0, 0);
+    border-color: var(--primary-color);
+}
+.btn-secondary1 {
+    background-color: #fdd835;
+    border-color: var(--primary-color);
 }

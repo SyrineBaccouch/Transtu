@@ -25,6 +25,7 @@ interface StationSchedule {
 export class AccueilComponent implements OnInit {
 
 
+  conditionMet: any;
   //private routingControl: L.Routing.Control | null = null;
   private routingControl: any;
   ligne: string = '';  
@@ -47,6 +48,7 @@ export class AccueilComponent implements OnInit {
   stationsDeLaLigneSelectionnee: any[] = [];
   errorMessage2: string = "";
   conUserId: string | null | undefined;
+  isButtonEnabled: any;
   
 
   //voyageurId: string | null;
@@ -80,6 +82,13 @@ export class AccueilComponent implements OnInit {
     window.location.reload();  
   }
 
+  
+  changeStyle(): { [key: string]: boolean } {
+    return {
+      'btn-secondary1': this.conditionMet, // Add the class 'btn-primary' when conditionMet is true
+      'btn-primary1': !this.conditionMet // Add 'btn-secondary' when conditionMet is false
+    };
+  }
 
   test(){
     if (localStorage.getItem("voyageur")!=null){
@@ -93,6 +102,12 @@ export class AccueilComponent implements OnInit {
 
 
   enregistrerPreference() {
+    const a="aze";
+    const c = confirm("Voulez vous vraiement ajouter la station "+this.station+ " du bus "+ this.ligne+ " a vos preferences? Vous recevrez des emails 10minutes avant chaque arrivé du bus")
+    if (c){
+      
+    
+
     const voyId = localStorage.getItem("voyageur");
 
     const pref = {
@@ -114,7 +129,15 @@ export class AccueilComponent implements OnInit {
     );
     }
   }
+  }
 
+
+  onStationChange($event: Event) {
+    this.conditionMet = true;
+    this.changeStyle();
+    
+  }
+  
 
 
   ngAfterViewChecked() {
