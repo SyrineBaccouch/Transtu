@@ -7,13 +7,17 @@
     <tr>
       <th>Station</th>
       <th>Ligne</th>
-      <th style="width: 30%;">Action</th>
+      <th>Direction</th>
+      <th>Horaires</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let stop of aa">
       <td>{{ stop.stationFavoris }}</td>
       <td>{{ stop.busFavoris }}</td>
+      <td>{{ stop.direction }}</td>
+      <td>{{ stop.horaire }}</td>
       <td>
         <button class="btn btn-sm btn-danger btn-action" (click)="supprimerPreference(stop.id)">
           Ne plus recevoir des emails
@@ -25,4 +29,7 @@
     <p *ngIf="noUser" style="text-align: center;" class="important-text">Vous devez creer un compte pour recevoir des emails sur les horaires des bus</p>
   </td>
 </table>
+
+<a *ngIf="!this.noUser" class="btn btn-secondary d-block mx-auto mt-3" style="width: 150px;" href="/formulaire">Creer</a>
+<a *ngIf="this.noUser" class="btn btn-secondary d-block mx-auto mt-3" style="width: 150px;" href="/register">Creer</a>
 <a class="btn btn-primary d-block mx-auto mt-3" style="width: 150px;" href="/accueil">Retourner</a>

@@ -5,6 +5,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RecupMdpComponent } from './recup-mdp/recup-mdp.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { BusFormComponent } from './bus-form/bus-form.component';
+import { HistoriqueComponent } from './historique/historique.component';
 
 const routes: Routes = [
   
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent } ,
   { path: 'login', component: LoginComponent } ,
   { path: 'register', component: RecupMdpComponent }, 
+  { path: 'formulaire', component: BusFormComponent }, 
+  { path: 'historique', component: HistoriqueComponent }, 
   { path: 'preferences', component: PreferencesComponent } 
 
 ];

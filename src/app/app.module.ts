@@ -13,6 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { RecupMdpComponent } from './recup-mdp/recup-mdp.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { BusFormComponent } from './bus-form/bus-form.component';
+import { HistoriqueComponent } from './historique/historique.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { PreferencesComponent } from './preferences/preferences.component';
     RegisterComponent,
     RecupMdpComponent,
     PreferencesComponent,
+    BusFormComponent,
+    HistoriqueComponent,
     
   ],
   imports: [

@@ -28,7 +28,18 @@ export class PreferencesComponent {
     const a = localStorage.getItem("voyageur");
     this.busservice.getPreferences(a).subscribe(
       (data: any)=>{
-        this.aa = data;
+        this.aa = data.map((favorite: { horaire: string; }) => ({
+          ...favorite,
+          horaire: favorite.horaire === "00:00:00" ? "Tous les horaires" : favorite.horaire
+        }));
+        this.aa = data.map((favorite: { direction: string; }) => ({
+          ...favorite,
+          direction: favorite.direction === "tempsvs" ? "Vers Station" :
+                     favorite.direction === "tempsvb" ? "Vers Banlieue" :
+                     favorite.direction
+        }));
+        
+        console.log(data);
       },
       (error)=>{
         console.log(error);

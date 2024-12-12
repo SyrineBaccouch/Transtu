@@ -1,0 +1,59 @@
+<head>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+</head>
+<body>
+    <h1 style="text-align: center;">
+        Votre historique
+    </h1>
+
+    <div class="parent">
+        
+    
+    <div class="station-table-container">
+    <table class="station-table">
+      <thead>
+        <tr>
+          <th>Ligne</th>
+          <th>Station</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of data; let i = index">
+          <tr 
+            class="station-row" 
+            [class.row-expanded]="expandedIndex === i"
+            (click)="toggleRow(i)">
+            <td>
+              <span class="ligne-badge">{{ item.ligne }}</span>
+            </td>
+            <td>{{ item.station }}</td>
+            <td class="expand-indicator">
+              <i class="toggle-icon" [class.rotated]="expandedIndex === i">
+                ▼
+              </i>
+            </td>
+          </tr>
+          <tr *ngIf="expandedIndex === i" class="details-row">
+            <td colspan="3">
+                <div id="map"></div>
+                <div style="top: 500px;position: absolute;z-index: 1000;margin-left: 2%;">
+                    <button class="btn btn-secondary" (click)="trajetLigne()">trajet</button><br><br>
+                    <button class="btn btn-secondary" (click)="voirStation()">station</button>
+                </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>

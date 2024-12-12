@@ -1,0 +1,51 @@
+<div class="bus-form-container">
+    <div class="form-card">
+      <h2>Enregistrer Votre Preference</h2>
+      <form [formGroup]="busForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ligne">Ligne:</label>
+            <select id="ligne" formControlName="ligne" (change)="onLigneChange($event)" class="form-control">
+                <option *ngFor="let ligneName of tousLesLignes" [value]="ligneName">
+                  {{ ligneName }}
+                </option>
+              </select>
+          </div>
+          <div class="form-group">
+            <label for="station">Station:</label>
+            <select id="station" formControlName="station"(change)="onStationChange($event)" class="form-control" >
+                <option value="Veuillez selectionner une station">Veuillez selectionner une station</option>
+                <option *ngFor="let station of stationsDeLaLigneSelectionnee" (value)="station.nom" >
+                    {{ station.nom }}
+            </select>
+          </div>
+        </div> 
+        <div class="form-group">
+            <label>Direction:</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" formControlName="direction" value="tempsvs" (change)="onPick($event)">
+                Temps VS
+              </label>
+              <label>
+                <input type="radio" formControlName="direction" value="tempsvb" (change)="onPick($event)">
+                Temps VB
+              </label>
+            </div>
+          </div>
+        <div class="form-group">
+          <label for="horaire">Horaire:</label>
+          <select id="horaire" formControlName="horaire">
+            <option *ngFor="let h of horaires" >
+                {{ h }}
+          </select>
+        </div>
+        <p class="small-styled">
+            On vous envoie un email chaque heure votre bus favoris arrive à votre station favoris ou <u> un seul fois quand vous specifié l'heure. </u>
+        </p>
+        <button type="submit" [disabled]="!busForm.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+  
+  

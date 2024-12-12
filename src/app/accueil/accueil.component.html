@@ -41,6 +41,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
+                    <li *ngIf="this.conUserId!=null" class="nav-item"><a class="nav-link" href="/historique">Mon Historique </a></li>
                     <li class="nav-item"><a class="nav-link" href="/preferences">Preferences </a></li>
                     <li class="nav-item"><a class="nav-link" href="#home">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">Tarifs</a></li>
@@ -54,8 +55,9 @@
 
     <div id="home" class="section">
         <div class="container mt-4">
-            <h1 class="mb-4">Bus Information <button  [ngClass]="changeStyle()"
-  [disabled]="!conditionMet"  *ngIf="conUserId" style="margin-left: 80%;" class="btn" (click)="enregistrerPreference()"> Enregistrer ma preference</button>
+            <h1 class="mb-4"> 
+                Informations des bus
+                <button  [ngClass]="changeStyle()" [disabled]="!conditionMet"  *ngIf="conUserId" style="margin-left: 80%;" class="btn" (click)="enregistrerPreference()"> Enregistrer ma preference</button>
             </h1>
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -81,8 +83,6 @@
                 </div>
             </div>
             <div class="button-section mb-4">
-
-
                 <button class="btn btn-secondary" (click)="getBusByLigne()">Info de la ligne</button>
                 <button class="btn btn-secondary" (click)="getHorairesVersBanlieue()">Horaires Vers Banlieue</button>
                 <button class="btn btn-secondary" (click)="getHorairesVersStation()">Horaires Vers Station</button>

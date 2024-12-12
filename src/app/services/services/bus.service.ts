@@ -8,7 +8,7 @@ import { Bus } from '../../models/bus';
 })
 export class BusService {
 
-  private URL = "http://192.168.28.128:8081/api";
+  private URL = "http://localhost:8081/api";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -80,6 +80,18 @@ export class BusService {
 
   supprimerPreference(id : any): Observable<any>{
     return this.httpClient.delete<any>(`${this.URL}/supprimerPreference/${id}`);
+  }
+
+  enregistrerHistorique(ligne : string, station : string): Observable<any>{
+    const l = encodeURIComponent(ligne)
+    const s = encodeURIComponent(station)
+    const idUser = localStorage.getItem("voyageur");
+    return this.httpClient.put(`${this.URL}/enregistrer/${l}/${s}/${idUser}`,null);
+  }
+
+  getHistorique(): Observable<any[]>{
+    const id = localStorage.getItem("voyageur");
+    return this.httpClient.get<any[]>(`${this.URL}/getHistorique/${id}`);
   }
 
 }

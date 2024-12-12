@@ -4,7 +4,7 @@ import { Bus } from '../models/bus';
 import * as L from 'leaflet';
 
 import 'leaflet-routing-machine';
-import { Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 //import './Control.Coordinates';
 
@@ -52,7 +52,7 @@ export class AccueilComponent implements OnInit {
   
 
   //voyageurId: string | null;
-  constructor(private busService: BusService, private route : Router) {}
+  constructor(private routerr: ActivatedRoute  ,private busService: BusService, private route : Router) {}
 
   ngOnInit(): void {
     this.busService.getAllLignesNames().subscribe(
@@ -85,8 +85,8 @@ export class AccueilComponent implements OnInit {
   
   changeStyle(): { [key: string]: boolean } {
     return {
-      'btn-secondary1': this.conditionMet, // Add the class 'btn-primary' when conditionMet is true
-      'btn-primary1': !this.conditionMet // Add 'btn-secondary' when conditionMet is false
+      'btn-secondary1': this.conditionMet, 
+      'btn-primary1': !this.conditionMet 
     };
   }
 
@@ -102,46 +102,28 @@ export class AccueilComponent implements OnInit {
 
 
   enregistrerPreference() {
-    const a="aze";
-    const c = confirm("Voulez vous vraiement ajouter la station "+this.station+ " du bus "+ this.ligne+ " a vos preferences? Vous recevrez des emails 10minutes avant chaque arrivé du bus")
-    if (c){
-      
-    
-
-    const voyId = localStorage.getItem("voyageur");
-
-    const pref = {
-      "busFavoris": this.ligne,
-      "stationFavorite":this.station
-    }
-
-    console.log(pref);
-    if ( voyId){
-      this.busService.enregistrerPreference(voyId as unknown as number ,pref).subscribe(
-        (data : boolean)=>{
-            if (data){
-              this.errorMessage = "preferences mise a jour!"
-            }
-        },
-        (error)=>{
-          console.log(error);
-        }
-    );
-    }
-  }
+    this.route.navigate(['/formulaire']);
   }
 
 
   onStationChange($event: Event) {
     this.conditionMet = true;
     this.changeStyle();
+
+    //journalisation de l'historique
+    this.busService.enregistrerHistorique(this.ligne,this.station).subscribe(
+      (data: boolean)=>{
+        if (data) console.log("Saved " + this.ligne + " " + this.station)
+        if (!data) console.log("Couldn't save.")
+      },
+      (error)=>{
+
+      }
+    )
     
   }
   
-
-
   ngAfterViewChecked() {
-    // Invalidate map size after each change in the view
     if (this.map) {
       this.map.invalidateSize();
     }
@@ -153,60 +135,18 @@ export class AccueilComponent implements OnInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
-    
-/*
-    var st1 = L.icon({
-      iconUrl: '../../assets/station.png',
-      iconSize:     [29.25, 32], // size of the icon
-      iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-      popupAnchor:  [-3, -76]
-  });
-  L.marker([36.695764,10.388917], {icon: st1}).addTo(this.map);
-  /*
-  this.routingControl = (L as any).Routing.control({
-    waypoints: [
-      L.latLng(36.798811, 10.189407),
-      L.latLng(36.767216, 10.269066)
-    ],
-    routeWhileDragging: true,
-    addWaypoints: true,
-    createMarker: () => null, // Disable markers
-    lineOptions: {
-      styles: [{ color: '#BA256B', opacity: 1, weight: 10 }]
-    }
-  }).addTo(this.map);
-*/
-  // Manually hide the itinerary panel if it still appears
-  
-    
-
-
-
-  //this.map.on('click',this.onMapClick);
-
-}
-
-
-
-
-
-
-
+  }
 
   onMapClick(e: any){
     alert(e.latlng);
     
   }
 
-  
-
   Change($event: Event) : void {
     console.log(this.station2);
   }
    
-  
 
-  
   filteredStations(): any[] {
    // console.log(this.tousLesStations.filter(station => station.nom !== this.station1));
     return this.tousLesStations.filter(station => station.nom !== this.station1);
@@ -310,7 +250,7 @@ export class AccueilComponent implements OnInit {
     }
   }
 
-  getStationToStationTimesVS(): void {
+    getStationToStationTimesVS(): void {
     this.clearOtherData();
     if (this.station1 && this.station2) {
       this.busService.getStationToStationTimesVS(this.station1, this.station2).subscribe(
@@ -373,15 +313,18 @@ export class AccueilComponent implements OnInit {
 
   onLigneChange(event: Event): void {
     this.clearExistingMarkersAndRoute();
+
     this.busService.getStationsByLigne(this.ligne).subscribe(
       (data : StationSchedule[])=> {
         this.stationsDeLaLigneSelectionnee = data;
         this.stationsDeLaLigneSelectionnee = this.stationsDeLaLigneSelectionnee.sort((a, b) => a.nom.localeCompare(b.nom));
 
-    // Log the sorted array
     console.log(this.stationsDeLaLigneSelectionnee);
       }
     );
+
+
+
     this.busService.getAllStationsCoordsOfLigne(this.ligne).subscribe(
       (data: any[]) => {
         
@@ -408,10 +351,12 @@ export class AccueilComponent implements OnInit {
             styles: [{ color: '#b600ff', opacity: 1, weight: 10 }]
           }
         }).addTo(this.map);
-        const routingContainer = document.querySelector('.leaflet-routing-container');
-        if (routingContainer) {
-          routingContainer.setAttribute('style', 'display: none !important');
-        }
+        const routingContainer = document.querySelectorAll('.leaflet-routing-container');
+            
+            if (routingContainer) {
+              routingContainer.forEach((elem) =>{
+                elem.setAttribute('style', 'display: none !important')
+              })            }
       },
       (error) => {
         console.error("Error fetching coordinates:", error);
@@ -447,6 +392,7 @@ export class AccueilComponent implements OnInit {
                 .addTo(this.map)
                 .bindPopup(stationName); // Display station name on click
               markers.push(marker);
+              
             }
           } else {
             console.warn(`Invalid coordinates for ${stationName}:`, coords);
@@ -463,6 +409,12 @@ export class AccueilComponent implements OnInit {
             styles: [{ color: '#BA256B', opacity: 1, weight: 10 }] // Styling the route line
           }
         }).addTo(this.map);
+        const routingContainer = document.querySelectorAll('.leaflet-routing-container');
+            
+            if (routingContainer) {
+              routingContainer.forEach((elem) =>{
+                elem.setAttribute('style', 'display: none !important')
+              }) }
       },
       (error) => {
         console.error("Error fetching coordinates:", error);

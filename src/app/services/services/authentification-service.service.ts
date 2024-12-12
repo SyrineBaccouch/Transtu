@@ -9,7 +9,7 @@ export class AuthentificationServiceService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private URL = "http://192.168.28.128:8081/api";
+  private URL = "http://localhost:8081/api";
 
   inscription(creds : any): Observable<any> {
     return this.httpClient.post(`${this.URL}/inscription`,creds);
